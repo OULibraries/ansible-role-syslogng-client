@@ -19,7 +19,7 @@ options {
 # Define input source
 source s_local { system(); internal(); };
 
-destination d_syslogng_tcp { syslog("{{ syslogng_server_address }}" transport("{{ syslogng_server_protocl }}") port("{{ syslogng_server_port }}")); };
+destination d_syslogng_tcp { syslog("{{ syslogng_server_address }}" transport("{{ syslogng_server_protocol }}") port("{{ syslogng_server_port }}")); };
 
 log { source(s_local);destination(d_syslogng_tcp); };
 
