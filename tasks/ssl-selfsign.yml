@@ -14,5 +14,14 @@
   shell: >
     echo \# > "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_chain.pem"
 
-
+- name: Create Syslog-ng Server Certificate File Location
+  blockinfile:
+    dest: /etc/pki/tls/certs/{{syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem
+    backup: yes
+    mode: 0644
+    owner: root
+    group: wheel
+    create: yes
+    block: |
+      {{ syslogng_server_cert }}
 
