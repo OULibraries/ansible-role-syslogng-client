@@ -8,7 +8,7 @@
 - name: Configure Syslog-ng
   template:
     backup: yes
-    src: /templates/syslog-ng.conf.j2
+    src: syslog-ng.conf.j2
     dest: /etc/syslog-ng/syslog-ng.conf
     mode: 0644
     owner: root
