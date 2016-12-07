@@ -19,7 +19,6 @@
     dest: "/etc/pki/tls/certs/server_cert.pem"
     create: yes
     backup: yes
-    marker: false
     mode: 0644
     owner: root
     group: wheel
