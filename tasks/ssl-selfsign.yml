@@ -16,7 +16,7 @@
 
 - name: Create Syslog-ng Server Certificate File Location
   blockinfile:
-    dest: /etc/pki/tls/certs/{{syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem
+    dest: /etc/pki/tls/certs/{{syslogng_server_dn }}/{{ syslogng_server_dn }}_cert.pem
     backup: yes
     mode: 0644
     owner: root
