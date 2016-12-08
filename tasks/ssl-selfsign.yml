@@ -17,11 +17,11 @@
 - name: Ensure Syslogng Server ssl cert directory exists
   file: path="{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" state=directory
 
-- name: Configure Syslog-ng
+- name: Configure Syslog-ng Server Cert
   template:
     backup: yes
     src: server_cert.pem.j2
-    dest: "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem"
+    dest: "{{ syslogng_cert_path }}"/"{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"/"{{ syslogng_server_prefix }}_cert.pem"
     mode: 0600
     owner: root
     group: wheel
