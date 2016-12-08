@@ -43,4 +43,13 @@ destination d_syslogng_tls {
 };
 
 
+# Define Destination for Remote Log
+destination netlogpile { file(
+"/var/log/syslogng.log"
+owner(root) group(root) perm (0600)
+create_dirs ( yes ) dir_perm( 0700 ));
+};
+
 log { source(s_sys);destination(d_syslogng_tls); };
+
+log { source(s_sys);destination(netlogpile); };
