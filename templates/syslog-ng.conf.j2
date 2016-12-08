@@ -24,10 +24,10 @@ source s_sys {
 
 # Define remote logging destination
 destination d_syslogng_tls {
-  syslog("{{ syslogng_server_dn }}" 
+  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" 
   port("{{ syslogng_server_port }}")
   transport("{{ syslogng_server_protocol }}")
-  tls(ca-dir("/etc/pki/tls/certs/{{ syslogng_server_dn }}"))
+  tls(ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"))
   );
 };
 
