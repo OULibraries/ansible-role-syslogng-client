@@ -23,12 +23,24 @@ source s_sys {
 };
 
 # Define remote logging destination
+#destination d_syslogng_tls {
+#  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" 
+#  port("{{ syslogng_server_port }}")
+#  transport("{{ syslogng_server_protocol }}")
+#  tls(ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"))
+#  );
+#};
+
 destination d_syslogng_tls {
-  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" 
+  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
   port("{{ syslogng_server_port }}")
   transport("{{ syslogng_server_protocol }}")
-  tls(ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"))
-  );
+  tls( 
+    ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}")
+    key-file("/etc/pki/tls/private/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem")
+    cert-file("/etc/pki/tls/certs/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem")) 
+    ); 
 };
+
 
 log { source(s_sys);destination(d_syslogng_tls); };
