@@ -32,5 +32,5 @@
   register: hash_output
 
 - name: Create symbolic link to certificate
-  cmd: >
+  command: >
     ln -s "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem" "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{hash_output.stdout }}.0"
