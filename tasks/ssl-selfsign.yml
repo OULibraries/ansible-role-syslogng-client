@@ -26,3 +26,18 @@
     owner: root
     group: wheel
 
+- name: Create hash of server certificate
+  command: >
+    openssl x509 -noout -hash -in {{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem
+  register: hash_output
+
+- name: Create symbolic link to certificate
+  command: >
+    ln -s {{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem {{hash_output.stdout }}.0
+
+
+
+
+
+
+
