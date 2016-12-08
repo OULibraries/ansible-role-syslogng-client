@@ -35,5 +35,4 @@
   file:
     src: "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem" 
     dest: "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{hash_output.stdout }}.0"
-
-
+    force: yes
