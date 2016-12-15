@@ -1,11 +1,13 @@
 ---
 
 - name: Install Syslog-ng
+  hosts: client
   yum:
     name: syslog-ng
     state: present
 
 - name: Configure Syslog-ng
+  hosts: client
   template:
     backup: yes
     src: syslog-ng.conf.j2
