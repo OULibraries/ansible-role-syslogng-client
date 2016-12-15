@@ -23,27 +23,19 @@ source s_sys {
 };
 
 # Define remote logging destination
-#destination d_syslogng_tls {
-#  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" 
-#  port("{{ syslogng_server_port }}")
-#  transport("{{ syslogng_server_protocol }}")
-#  tls(ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"))
-#  );
-#};
-
 destination d_syslogng_tls {
   syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
   port("{{ syslogng_server_port }}")
   transport("{{ syslogng_server_protocol }}")
   tls( 
-    ca-dir("/etc/pki/tls/certs/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}")
-    key-file("/etc/pki/tls/private/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem")
-    cert-file("/etc/pki/tls/certs/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem")) 
-    ); 
+    ca-dir("{{ syslogng_cert_path }}{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}")
+    key-file("{{ syslogng_key_path }}{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem")
+    cert-file("{{ syslogng_cert_path }}{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem")
+    peer-verify(optional-untrusted))); 
 };
 
 
-# Define Destination for Remote Log
+# Define Destination for Remote Log - TEMP? Remove after testing?
 destination netlogpile { file(
 "/var/log/syslogng.log"
 owner(root) group(root) perm (0600)
