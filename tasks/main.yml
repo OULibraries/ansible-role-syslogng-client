@@ -6,3 +6,6 @@
 
 - include: ssl-selfsign.yml
   sudo: yes
+
+- include: hosts.yml
+  sudoe: yes
