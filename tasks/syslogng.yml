@@ -1,18 +1,20 @@
 ---
 
-- name: Install Syslog-ng
-  hosts: client
-  yum:
-    name: syslog-ng
-    state: present
+- hosts: client
 
-- name: Configure Syslog-ng
-  hosts: client
-  template:
-    backup: yes
-    src: syslog-ng.conf.j2
-    dest: /etc/syslog-ng/syslog-ng.conf
-    mode: 0644
-    owner: root
-    group: wheel
-  notify: Enable syslog-ng
+  tasks:
+
+  - name: Install Syslog-ng
+    yum:
+      name: syslog-ng
+      state: present
+
+  - name: Configure Syslog-ng
+    template:
+      backup: yes
+      src: syslog-ng.conf.j2
+      dest: /etc/syslog-ng/syslog-ng.conf
+      mode: 0644
+      owner: root
+      group: wheel
+    notify: Enable syslog-ng
