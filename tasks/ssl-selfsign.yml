@@ -19,6 +19,15 @@
 - name: Ensure Syslogng Server ssl cert directory exists
   file: path="{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" state=directory
 
+- name: Create hash of local certificate
+  command: >
+    openssl x509 -noout -hash -in {{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem
+  register: hash_output
+
+- name: Create symbolic link to local certificate
+  command: >
+    ln -s "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem" "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{hash_output.stdout }}.0"
+
 - name: Configure Syslog-ng Server Cert
   template:
     backup: yes
@@ -28,11 +37,11 @@
     owner: root
     group: wheel
 
-- name: Create hash of local certificate
+- name: Create hash of server certificate
   command: >
-    openssl x509 -noout -hash -in {{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem
+    openssl x509 -noout -hash -in {{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem
   register: hash_output
 
-- name: Create symbolic link to certificate
+- name: Create symbolic link to server certificate
   command: >
-    ln -s "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem" "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{hash_output.stdout }}.0"
+    ln -s "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem" "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{hash_output.stdout }}.0"
