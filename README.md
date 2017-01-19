@@ -1,38 +1,60 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Syslog-NG Client role with two way encrypted communication to Syslog-NG server using certificates for OULib.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+A target system running CentOS7x and a configured Syslog-NG server for logging destination.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+There are two sets of variables needed for the myvars.yml file. 1 set for the client and 1 set for the server.
+
+Client Variables:
+
+	syslogng_client_ip: 10.255.255.11
+	syslogng_dn_prefix: syslogngclient
+	syslogng_dn_suffix: vagrant.localdomain
+
+Server Variables
+
+	syslogng_server_ip: 10.255.255.10
+	syslogng_server_prefix: syslogng
+	syslogng_server_suffix: vagrant.localdomain
+	syslogng_server_protocol: tls
+	syslogng_server_port: 514
+
+	syslogng_server_cert: |
+	  -----BEGIN CERTIFICATE-----
+	  <paste server certificate>
+	  -----END CERTIFICATE-----
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+* [OU Libraries Centos7 Role](https://github.com/OULibraries/ansible-role-centos7)
+* [OU Libraries Users Role](https://github.com/OULibraries/ansible-role-users)
+
+This role configures the client for logging of syslogs. The companion role is the Syslog-NG Server Role, which is used to configure the sever on the network. Once the server has been deployed on the network, simply copy the server SSL certificate into your my-vars.yml file and insert the server IP address and domain name.
+
+* [OU Libraries Syslog-NG Server Role](https://github.com/OULibraries/ansible-role-syslogng)
+
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+Make sure to change the client variables in the my-vars.yml file for each client on the network.
 
 License
 -------
 
-BSD
+TBD
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Chris Cone @ OU Libraries
+
