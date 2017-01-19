@@ -45,3 +45,5 @@
 - name: Create symbolic link to server certificate
   command: >
     ln -s "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{ syslogng_server_prefix }}_cert.pem" "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{hash_output.stdout }}.0"
+  args:
+    creates: "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/{{hash_output.stdout }}.0"
