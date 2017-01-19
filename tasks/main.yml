@@ -1,8 +1,8 @@
 ---
-# tasks file for ansible-role-syslogng
+# tasks file for ansible-role-syslogng-client
 
-#- include: hosts.yml
-#  sudo: yes
+- include: hosts.yml
+  sudo: yes
 
 - include: syslogng.yml
   sudo: yes
