@@ -51,7 +51,7 @@ Make sure to change the client variables in the my-vars.yml file for each client
 License
 -------
 
-TBD
+[MIT](https://github.com/OULibraries/ansible-role-syslogng-client/blob/master/LICENSE)
 
 Author Information
 ------------------
