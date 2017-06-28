@@ -22,7 +22,18 @@ source s_sys {
   internal();
 };
 
-# Define remote logging destination
+# Define Destination for Local Logs
+destination d_cons { file("/dev/console"); };
+destination d_mesg { file("/var/log/messages"); };
+destination d_auth { file("/var/log/secure"); };
+destination d_mail { file("/var/log/maillog" flush_lines(10)); };
+destination d_spol { file("/var/log/spooler"); };
+destination d_boot { file("/var/log/boot.log"); };
+destination d_cron { file("/var/log/cron"); };
+destination d_kern { file("/var/log/kern"); };
+destination d_mlal { usertty("*"); };
+
+# Define Destination for Remote Log
 destination d_syslogng_tls {
   syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
   port("{{ syslogng_server_port }}")
@@ -34,14 +45,34 @@ destination d_syslogng_tls {
     peer-verify(optional-untrusted))); 
 };
 
+# Define local logging filters
+filter f_kernel { facility(kern); };
+filter f_default { level(info..emerg) and
+  not (facility(mail)
+  or facility(authpriv)
+  or facility(cron)); };
+filter f_auth { facility(authpriv); };
+filter f_mail { facility(mail); };
+filter f_emergency { level(emerg); };
+filter f_news { facility(uucp) or
+  (facility(news)
+  and level(crit..emerg)); };
+filter f_boot { facility(local7); };
+filter f_cron { facility(cron); };
 
-# Define Destination for Remote Log - TEMP? Remove after testing?
-destination netlogpile { file(
-"/var/log/syslogng.log"
-owner(root) group(root) perm (0600)
-create_dirs ( yes ) dir_perm( 0700 ));
-};
+# Define local logging destination
+log { source(s_sys); filter(f_kernel); destination(d_kern); };
+log { source(s_sys); filter(f_default); destination(d_mesg); };
+log { source(s_sys); filter(f_auth); destination(d_auth); };
+log { source(s_sys); filter(f_mail); destination(d_mail); };
+log { source(s_sys); filter(f_emergency); destination(d_mlal); };
+log { source(s_sys); filter(f_news); destination(d_spol); };
+log { source(s_sys); filter(f_boot); destination(d_boot); };
+log { source(s_sys); filter(f_cron); destination(d_cron); };
 
+# Send the local logs to the remote destination
 log { source(s_sys);destination(d_syslogng_tls); };
 
-log { source(s_sys);destination(netlogpile); };
+# Source additional configuration files (.conf extension only)
+@include "/etc/syslog-ng/conf.d/*.conf"
+
