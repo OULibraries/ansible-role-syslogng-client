@@ -11,7 +11,6 @@ options {
   use_fqdn (yes);
   create_dirs (no);
   dns-cache-hosts (/etc/hosts);
-  keep_hostname (yes);
   time-zone ("America/Chicago");
 };
 
@@ -20,6 +19,12 @@ options {
 source s_sys {
   system();
   internal();
+};
+
+source s_tail {
+  file("/var/log/messages" follow-freq(1) flags(no-multi-line));
+  file("/var/log/secure" follow-freq(1) flags(no-multi-line));
+  file("/var/log/secure/denyhosts" follow-freq(1) flags(no-multi-line));
 };
 
 # Define Destination for Local Logs
@@ -35,7 +40,7 @@ destination d_mlal { usertty("*"); };
 
 # Define Destination for Remote Log
 destination d_syslogng_tls {
-  syslog("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
+  network("{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
   port("{{ syslogng_server_port }}")
   transport("{{ syslogng_server_protocol }}")
   tls( 
@@ -72,7 +77,7 @@ log { source(s_sys); filter(f_cron); destination(d_cron); };
 
 # Send the local logs to the remote destination
 log { source(s_sys);destination(d_syslogng_tls); };
-
+log { source(s_tail);destination(d_syslogng_tls); };
 # Source additional configuration files (.conf extension only)
 @include "/etc/syslog-ng/conf.d/*.conf"
 
