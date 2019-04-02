@@ -7,12 +7,12 @@
   file: path="{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}" state=directory
 
 - name: Generate a self-signed cert.
-  sudo: yes
+  become: true
   command: >
     openssl req -newkey rsa:2048 -nodes -sha256 -x509 -subj "/C=US/ST=Oklahoma/L=Norman/O=University of Oklahoma/OU=Library Technology Platforms/CN={{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}" -days 90 -keyout "{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem" -out "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem"
 
 - name: Create a dummy chain file
-  sudo: yes
+  become: true
   shell: >
     echo \# > "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_chain.pem"
 
