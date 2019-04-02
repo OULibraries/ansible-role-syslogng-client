@@ -26,9 +26,9 @@ source s_tail {
   file("/var/log/secure" follow-freq(1) flags(no-multi-line));
   file("/var/log/secure/denyhosts" follow-freq(1) flags(no-multi-line));
   {% if syslogng_tail is defined %}
-  {% for tailer in syslogng_tail %}
+{% for tailer in syslogng_tail %}
   file("{{ tailer }}" follow-freq(1) flags(no-multi-line));
-  {% endfor %}
+{% endfor %}
   {% endif %} 
 };
 
