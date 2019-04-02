@@ -3,9 +3,12 @@
 
 - include: hosts.yml
   become: true
+  tags: hosts
 
 - include: syslogng.yml
   become: true
+  tags: agent
 
 - include: ssl-selfsign.yml
   become: true
+  tags: ssl
