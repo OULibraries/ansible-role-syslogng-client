@@ -1,10 +1,14 @@
 ---
 
 - name: Ensure ssl cert directory exists
-  file: path="{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}" state=directory
+  file: 
+    path: "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}"
+    state: directory
 
 - name: Ensure ssl key directory exists
-  file: path="{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}" state=directory
+  file: 
+    path: "{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}" 
+    state: directory
 
 - name: Generate a self-signed cert.
   become: true
@@ -17,7 +21,9 @@
     echo \# > "{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_chain.pem"
 
 - name: Ensure Syslogng Server ssl cert directory exists
-  file: path="{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}" state=directory
+  file:
+    path: "{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}"
+    state: directory
 
 - name: Create hash of local certificate
   command: >
