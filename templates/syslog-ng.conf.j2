@@ -30,17 +30,17 @@ source s_tail {
   file("{{ tailer }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
 {% endif %} 
-{% if nginx_logs is defined %}
+{% if nginx_logs.files is defined %}
 {% for tailer in nginx_logs.files %}
   file("{{ tailer.path }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
 {% endif %}
-{% if httpd_logs is defined %}
+{% if httpd_logs.files is defined %}
 {% for tailer in httpd_logs.files %}
   file("{{ tailer.path }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
 {% endif %}
-{% if mariadb_logs is defined %}
+{% if mariadb_logs.files is defined %}
 {% for tailer in mariadb_logs.files %}
   file("{{ tailer.path }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}

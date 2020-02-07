@@ -15,7 +15,7 @@
     patterns: "*.log"
     recurse: yes
   register: nginx_logs
-  when: "'nginx.service' in services"
+  when: "services is defined and 'nginx.service' in services"
   tags: config
 
 - name: Gather HTTPD log files if needed
@@ -24,7 +24,7 @@
     patterns: "*_log"
     recurse: yes
   register: httpd_logs
-  when: "'httpd.service' in services"
+  when: "services is defined and 'httpd.service' in services"
   tags: config
 
 - name: Gather MariaDB log files if needed
@@ -33,7 +33,7 @@
     patterns: "*.log"
     recurse: yes
   register: mariadb_logs
-  when: "'mariadb.service' in services"
+  when: "services is defined and 'mariadb.service' in services"
   tags: config
 
 - name: Configure Syslog-ng
