@@ -30,6 +30,11 @@ source s_tail {
   file("{{ tailer }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
 {% endif %} 
+{% if nginx_sites is defined %}
+{% for tailer in nginx_sites %}
+  file("{{ tailer.path }}" follow-freq(1) flags(no-multi-line));
+{% endfor %}
+{% endif %}
 };
 
 # Define Destination for Local Logs

@@ -5,6 +5,17 @@
     name: syslog-ng
     state: present
 
+- name: Populate service facts
+  service_facts:
+
+- name: Gather NGINX log files if needed
+  find: 
+    paths: /var/log/nginx/
+    patterns: "*.log"
+    recurse: yes
+  register: nginx_sites
+  when: "'nginx' in services"
+
 - name: Configure Syslog-ng
   template:
     backup: yes
