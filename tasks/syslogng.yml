@@ -7,14 +7,25 @@
 
 - name: Populate service facts
   service_facts:
+  tags: config
 
 - name: Gather NGINX log files if needed
   find: 
     paths: /var/log/nginx/
     patterns: "*.log"
     recurse: yes
-  register: nginx_sites
-  when: "'nginx' in services"
+  register: nginx_logs
+  when: "'nginx.service' in services"
+  tags: config
+
+- name: Gather HTTPD log files if needed
+  find:
+    paths: /var/log/httpd/
+    patterns: "*_log"
+    recurse: yes
+  register: httpd_logs
+  when: "'httpd.service' in services"
+  tags: config
 
 - name: Configure Syslog-ng
   template:
