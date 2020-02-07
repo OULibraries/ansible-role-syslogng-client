@@ -27,6 +27,15 @@
   when: "'httpd.service' in services"
   tags: config
 
+- name: Gather MariaDB log files if needed
+  find:
+    paths: /var/log/mariadb/
+    patterns: "*.log"
+    recurse: yes
+  register: mariadb_logs
+  when: "'mariadb.service' in services"
+  tags: config
+
 - name: Configure Syslog-ng
   template:
     backup: yes
