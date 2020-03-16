@@ -49,7 +49,7 @@ destination d_syslogng_tls {
   port("{{ syslogng_server_port }}")
   transport("{{ syslogng_server_protocol }}")
   tls( 
-    ca-dir("{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}")
+    ca-dir("{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/")
     key-file("{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem")
     cert-file("{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem")
     peer-verify(optional-untrusted))); 
