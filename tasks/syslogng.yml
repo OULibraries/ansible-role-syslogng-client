@@ -45,3 +45,4 @@
     owner: root
     group: wheel
   notify: Enable syslog-ng
+  tags: config
