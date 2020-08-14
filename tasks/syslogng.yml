@@ -10,7 +10,7 @@
   tags: config
 
 - name: Gather NGINX log files if needed
-  find: 
+  find:
     paths: /var/log/nginx/
     patterns: "*.log"
     recurse: yes
