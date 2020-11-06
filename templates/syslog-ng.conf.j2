@@ -1,6 +1,16 @@
 @version:3.5
 @include "scl.conf"
 
+# syslog-ng configuration file.
+#
+# This should behave pretty much like the original syslog on RedHat. But
+# it could be configured a lot smarter.
+#
+# See syslog-ng(8) and syslog-ng.conf(5) for more information.
+#
+# Note: it also sources additional configuration files (*.conf)
+#       located in /etc/syslog-ng/conf.d/
+
 # Define Global Options
 options {
   flush_lines (0);
@@ -96,3 +106,4 @@ log { source(s_tail);destination(d_syslogng_tcp); };
 # Source additional configuration files (.conf extension only)
 @include "/etc/syslog-ng/conf.d/*.conf"
 
+# vim:ft=syslog-ng:ai:si:ts=4:sw=4:et:
