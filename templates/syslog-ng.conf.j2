@@ -21,11 +21,8 @@ source s_sys {
   internal();
 };
 
-source s_tail {
-  file("/var/log/messages" follow-freq(1) flags(no-multi-line));
-  file("/var/log/secure" follow-freq(1) flags(no-multi-line));
-  file("/var/log/secure/denyhosts" follow-freq(1) flags(no-multi-line));
 {% if syslogng_tail is defined %}
+source s_tail {
 {% for tailer in syslogng_tail %}
   file("{{ tailer }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
@@ -44,8 +41,8 @@ source s_tail {
 {% for tailer in mariadb_logs.files %}
   file("{{ tailer.path }}" follow-freq(1) flags(no-multi-line));
 {% endfor %}
-{% endif %}
 };
+{% endif %}
 
 # Define Destination for Local Logs
 destination d_cons { file("/dev/console"); };
@@ -99,7 +96,10 @@ log { source(s_sys); filter(f_cron); destination(d_cron); };
 
 # Send the local logs to the remote destination
 log { source(s_sys);destination(d_syslogng_tls); };
+{% if syslogng_tail is defined %}
 log { source(s_tail);destination(d_syslogng_tls); };
+{% endif %}
+
 # Source additional configuration files (.conf extension only)
 @include "/etc/syslog-ng/conf.d/*.conf"
 
