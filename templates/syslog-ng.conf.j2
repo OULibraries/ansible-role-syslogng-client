@@ -56,16 +56,9 @@ destination d_kern { file("/var/log/kern"); };
 destination d_mlal { usertty("*"); };
 
 # Define Destination for Remote Log
-destination d_syslogng_tls {
-  network("{{ syslogng_server_hostname }}"
-  port("{{ syslogng_server_port }}")
-# Temporary fix for syslog-ng mutual encryption issue, disable tls until role is rewritten from ground up - Cody
-#  transport("{{ syslogng_server_protocol }}")
-#  tls( 
-#    ca-dir("{{ syslogng_cert_path }}/{{ syslogng_server_prefix }}.{{ syslogng_server_suffix }}/")
-#    key-file("{{ syslogng_key_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_privkey.pem")
-#    cert-file("{{ syslogng_cert_path }}/{{ syslogng_dn_prefix }}.{{ syslogng_dn_suffix }}/{{ syslogng_dn_prefix }}_cert.pem")
-#    peer-verify(optional-untrusted))
+destination d_syslogng_tcp {
+  syslog("{{ syslogng_server_hostname }}"
+  transport("tcp")
    ); 
 };
 
@@ -95,9 +88,9 @@ log { source(s_sys); filter(f_boot); destination(d_boot); };
 log { source(s_sys); filter(f_cron); destination(d_cron); };
 
 # Send the local logs to the remote destination
-log { source(s_sys);destination(d_syslogng_tls); };
+log { source(s_sys);destination(d_syslogng_tcp); };
 {% if syslogng_tail is defined %}
-log { source(s_tail);destination(d_syslogng_tls); };
+log { source(s_tail);destination(d_syslogng_tcp); };
 {% endif %}
 
 # Source additional configuration files (.conf extension only)
