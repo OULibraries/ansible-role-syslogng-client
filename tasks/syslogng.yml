@@ -36,6 +36,11 @@
   when: "services is defined and 'mariadb.service' in services"
   tags: config
 
+- name: Set if we need to tail
+  set_fact:
+    syslogng_tailer: ""
+  when: (mariadb_logs is defined or httpd_logs is defined or nginx_logs is defined) and (syslogng_tailer is not defined)
+
 - name: Configure Syslog-ng
   template:
     backup: yes
